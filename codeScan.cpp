@@ -4,5 +4,5 @@
 using namespace std;
 
 int main(){
-    
+    printf("Just a test");
 }
