@@ -1,8 +1,7 @@
-#include<iostream>
-#include<cstdlib>
-
-using namespace std;
+#include<stdio.h>
+#include<mpi.h>
+#include<omp.h> 
 
 int main(){
-    printf("Just a test");
+    
 }
