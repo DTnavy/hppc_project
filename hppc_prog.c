@@ -24,7 +24,7 @@ int main(int argc,char** argv){
 
     MPI_Init(NULL,NULL);
     MPI_Comm_rank(MPI_COMM_WORLD,&rank);
-    MPI_Comm_size(MPI_COMM_WORLD.&size);
+    MPI_Comm_size(MPI_COMM_WORLD,&size);
 
     if(rank == 0){
         char recvLine[fileLen];
@@ -38,17 +38,18 @@ int main(int argc,char** argv){
                 MPI_Wait(&recvrq,&status);
             }
 
-            *strcpy((fileLine+count*(fileLen+2),recvLine));
+            *strcpy((fileLine+count*(fileLen+2)),recvLine);
             count++;
         }
     }
 
     if(rank == 1)
     {
+
         int count2=0;
 
-        char const* const fileName = ""; //file exam-data.txt;
-        FILE* file = fopen(filenName,"r");
+        char const* const fileName = "exam-data2.txt"; //file exam-data.txt;
+        FILE* file = fopen(fileName,"r");
         char line[fileLen+3];
 
         while(!feof(file)){
@@ -71,7 +72,7 @@ int main(int argc,char** argv){
 
         *strcpy(inbuff,(fileLine + counter*(fileLen+2)));
 
-        MPI_Scatter(inbuff,data,MPI_CHAR,recvbuff,data.MPI_CHAR,0,MPI_COMM_WORLD);
+        MPI_Scatter(inbuff,data,MPI_CHAR,recvbuff,data,MPI_CHAR,0,MPI_COMM_WORLD);
         total = 0;
 
         for(int i=0;i<data;i++){
@@ -89,7 +90,7 @@ int main(int argc,char** argv){
                 MPI_Test(&recvrq,&req_complete,&status);
 
                 if(!req_complete){
-                    MPI_Wait(&recvrq,&req_complete,&status);
+                    MPI_Wait(&recvrq,&status);
                 }
 
                 ssum+=recv2;
@@ -103,10 +104,10 @@ int main(int argc,char** argv){
                         int idle = 0;
                         for(int count=0; count<recNo;count++){
 
-                            if((k/2)+1 >= recLeft[count][0] && (k/2)+1 <= recRight[count][0] && h+1 >= recLeft[count][1] && h+1 <= RecRight[count][1]){
+                            if((k/2)+1 >= recLeft[count][0] && (k/2)+1 <= recRight[count][0] && h+1 >= recLeft[count][1] && h+1 <= recRight[count][1]){
                                 idle = 1;
                             }
-
+                        }
                             if(idle == 1){
                                 continue;
                             }
@@ -120,13 +121,13 @@ int main(int argc,char** argv){
                             recLeft[recNo][0] = (k/2)+1;
                             recLeft[recNo][1] = h+1;
 
-                            #pragma omp parallel 
+                            #pragma omp parallel num_threads(2) private(tid)
                             {
                                 tid= omp_get_thread_num();
 
                                 if(tid==0){
 
-                                    while(*(fileLen + k*(fileLen+2)+x_ax) == 1){
+                                    while(*(fileLine + k*(fileLen+2)+x_ax) == 1){
                                         width_1++;
                                         x_ax++;
                                     }
@@ -134,7 +135,7 @@ int main(int argc,char** argv){
 
                                 if(tid == 1){
 
-                                    while(*(fileLen + k*(fileLen+2)+y_ax) == 1){
+                                    while(*(fileLine + k*(fileLen+2)+y_ax) == 1){
                                         height_1++;
                                         y_ax = y_ax+2;
                                     }
@@ -167,8 +168,8 @@ int main(int argc,char** argv){
     for(int p = 0; p<recNo; ++p){
 
         printf("Rectangle No. : %d\n",p+1);
-        print("Rectangle Coordinate [top-left corner]\t: %d,%d\n",recLeft[p][1],recLeft[p][0]);
-        print("Rectangle Coordinate [bottom-right corner]\t: %d,%d\n",recRight[p][1],recRight[p][0]);
+        printf("Rectangle Coordinate [top-left corner]\t: %d,%d\n",recLeft[p][1],recLeft[p][0]);
+        printf("Rectangle Coordinate [bottom-right corner]\t: %d,%d\n",recRight[p][1],recRight[p][0]);
         printf("\n");
     }
 

@@ -39,7 +39,7 @@ int main(int argc, char** argv)
 	{
 		int count=0;
 
-	    char const* const fileName = "Data.txt"; 
+	    char const* const fileName = "exam-data2.txt"; 
     	FILE* file = fopen(fileName, "r");
     	char line[lengthFile+3];
 

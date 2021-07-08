@@ -48,7 +48,7 @@ int main(int argc,char** argv)
 	if (rank==1)
 	{
 		int count2=0;
-		char const* const fileName="datatest2.txt";
+		char const* const fileName="exam-data2.txt";
 		FILE* file= fopen(fileName,"r");
 		char line[fileLen+3];
 		
